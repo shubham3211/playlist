@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
-import {playlistForm} from '../actions/playlistForm';
 import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -70,4 +69,4 @@ const playlistValues = reduxForm({
   validate
 })(PlaylistInfo);
 
-export default connect(null, {playlistForm})(playlistValues);
+export default connect(null, {})(playlistValues);
