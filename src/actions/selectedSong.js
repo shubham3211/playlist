@@ -1,8 +1,10 @@
 import {SELECTED_SONG} from '../constants';
 
-export const selectedSong = (song) => {
+const selectedSong = (song) => {
   return {
     type: SELECTED_SONG,
     payload: song
   }
 }
+
+export default selectedSong;

@@ -1,9 +1,15 @@
 import {CREATE_PLAYLIST} from '../constants';
 import {DELETE_SONG} from '../constants';
-export const createPlaylist = (playlist) => {
-  return {
-    type: CREATE_PLAYLIST,
-    payload: playlist
+import Spotify from '../core/Spotify'
+
+export const createPlaylist = (song) => {
+  return dispatch => {
+    Spotify.makePlaylist(song).then((playlist) => {
+      dispatch({
+        type: CREATE_PLAYLIST,
+        payload: playlist
+      })
+    })
   }
 }
 

@@ -12,7 +12,9 @@ import IconButton from '@material-ui/core/IconButton';
 import styled from 'styled-components';
 import PlaylistInfo from './PlaylistInfo';
 import Player from './Player';
-import {deleteSong} from '../actions/createPlaylist'
+import {deleteSong} from '../actions/createPlaylist';
+import selectSong from '../actions/selectedSong';
+import {createPlaylist} from '../actions/createPlaylist';
 
 const LiItem = styled(ListItem)`
   .icons {
@@ -55,7 +57,8 @@ class Playlist extends React.Component {
           pauseAll={this.pauseAll}
           addAudioElement={this.addAudioElement}
         />
-        <ListItemIcon className="icons">
+        <ListItemIcon className="icons" onClick={() => {this.props.selectSong(this.props.playlist[index]) 
+                                                        this.props.createPlaylist(this.props.playlist[index])}}>
           <IconButton size="small" color="primary" aria-label="add">
             <Replay />
           </IconButton>
@@ -110,4 +113,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {deleteSong})(Playlist);
+export default connect(mapStateToProps, {deleteSong, selectSong, createPlaylist})(Playlist);

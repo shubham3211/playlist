@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {connect} from 'react-redux';
-import {selectedSong} from '../actions/selectedSong';
+import selectedSong from '../actions/selectedSong';
 import {createPlaylist} from '../actions/createPlaylist';
 import '../styles/style.css'
 
@@ -65,15 +65,9 @@ class SearchBox extends React.Component {
     })
   }
 
-  makePlaylist = (song) => {
-    Spotify.makePlaylist(song).then((playlist) => {
-      this.props.createPlaylist(playlist);
-    })
-  }
-
   handleSearch = (song) => {
     this.props.selectedSong(song);
-    this.makePlaylist(song);
+    this.props.createPlaylist(song);
   }
 
   onSuggestionSelected = (event, {suggestion}) => {
