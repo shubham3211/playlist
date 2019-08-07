@@ -3,9 +3,8 @@ import SpotifyWebApi from 'spotify-web-api-node';
   let credentials = {
     clientId: '9bc9cd6f229443d5b183b2111b3901b1',
     clientSecret: 'bae7ecaab37e4e57bb39258b26950092',
-    // redirectUri: 'http://localhost:3000/login/index.html'
   }
-  
+
   let spotifyApi = new SpotifyWebApi(credentials);
 
   let Spotify = {
@@ -18,6 +17,15 @@ import SpotifyWebApi from 'spotify-web-api-node';
     artistTopTracks : (id) => spotifyApi.getArtistTopTracks(id, 'US'),
 
     setAccessToken : (token) => spotifyApi.setAccessToken(token),
+
+    createPlaylist : (userId, playlistName, access) => spotifyApi.createPlaylist(userId, playlistName, {public: access}),
+
+    addTracksToPlaylist : (userId, playlistId, tracks) => {
+      let uri = tracks.map((song) => song.uri);
+      return spotifyApi.addTracksToPlaylist(playlistId, uri);
+    },
+
+    getCurrentUser: () => spotifyApi.getMe(),
 
     makePlaylist : (song) => {
       return new Promise((resolve, reject) => {
@@ -38,33 +46,7 @@ import SpotifyWebApi from 'spotify-web-api-node';
           reject(err);
         })
       })
-    },
-
-    // login: () => {
-    //   return new Promise((resolve, reject) => {
-    //     let url = spotifyApi.createAuthorizeURL(scopes, state);
-    //     window.open(
-    //       url,
-    //       'Spotify',
-    //       'menubar=no,location=no,resizable=yes,scrollbars=yes,status=no,width=400,height=500'
-    //     );
-    //     window.addEventListener('storage', (data) => {
-    //       if (data.key === 'code') {
-    //         spotifyApi.authorizationCodeGrant(data.newValue).then((res) => {
-    //             console.log('The token expires in ' + res.body['expires_in']);
-    //             console.log('The access token is ' + res.body['access_token']);
-    //             console.log('The refresh token is ' + res.body['refresh_token']);
-    //             spotifyApi.setAccessToken(res.body['access_token']);
-    //             spotifyApi.setRefreshToken(res.body['refresh_token']);
-    //             resolve();
-    //           }
-    //         ).catch((err) => {
-    //           reject(err);
-    //         })
-    //       }
-    //     });
-    //   })
-    // }
+    }
   }
 
   export default Spotify;

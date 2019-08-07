@@ -39,8 +39,12 @@ class PlaylistInfo extends React.Component {
     )
   }
   onSubmit = formValues => {
-    Spotify.login().then(() => {
-      console.log('login :');
+    Spotify.getCurrentUser().then((user) => {
+      return Spotify.createPlaylist(user.body.id, formValues.playlistTitle, formValues.status=="public" ? true: false)
+    }).then((playlist) => {
+      return Spotify.addTracksToPlaylist(playlist.body.owner.id, playlist.body.id, this.props.tracks);
+    }).then((snapshot) => {
+      console.log('snapshot :', snapshot);
     })
   }
 
@@ -80,4 +84,10 @@ const playlistValues = reduxForm({
   validate
 })(PlaylistInfo);
 
-export default connect(null, {})(playlistValues);
+const mapStateToProps = (state) => {
+  return {
+    tracks: state.playlistCreated
+  }
+}
+
+export default connect(mapStateToProps, {})(playlistValues);
