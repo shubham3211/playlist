@@ -6,7 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {connect} from 'react-redux';
 import {selectedSong} from '../actions/selectedSong';
-import playlistCreate from '../actions/createPlaylist';
+import {createPlaylist} from '../actions/createPlaylist';
 import '../styles/style.css'
 
 class SearchBox extends React.Component {  
@@ -17,10 +17,6 @@ class SearchBox extends React.Component {
       value: '',
       suggestion: []
     };
-  }
-
-  componentDidMount() {
-    
   }
 
   getSuggestions = ({value}) => {
@@ -71,7 +67,7 @@ class SearchBox extends React.Component {
 
   makePlaylist = (song) => {
     Spotify.makePlaylist(song).then((playlist) => {
-      this.props.playlistCreate(playlist);
+      this.props.createPlaylist(playlist);
     })
   }
 
@@ -123,5 +119,5 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {selectedSong, playlistCreate})(SearchBox);
+export default connect(mapStateToProps, {selectedSong, createPlaylist})(SearchBox);
 

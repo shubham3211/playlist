@@ -5,13 +5,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { FixedSizeList } from 'react-window';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import PlayArrow from '@material-ui/icons/PlayArrow';
 import Replay from '@material-ui/icons/Replay';
 import Delete from '@material-ui/icons/Delete';
 import DragHandle from '@material-ui/icons/DragHandleTwoTone'
 import IconButton from '@material-ui/core/IconButton';
 import styled from 'styled-components';
 import PlaylistInfo from './PlaylistInfo';
+import Player from './Player';
+import {deleteSong} from '../actions/createPlaylist'
 
 const LiItem = styled(ListItem)`
   .icons {
@@ -26,7 +27,22 @@ const LiItem = styled(ListItem)`
 
 class Playlist extends React.Component {
 
+  constructor (props){
+    super(props);
+    this.currentAudioElement = '';
+  }
+
+  addAudioElement = (audioElement) => {
+    this.currentAudioElement = audioElement;
+  }
+
+  pauseAll = () => {
+    if(this.currentAudioElement)
+        this.currentAudioElement.pause();
+  }
+
   renderList = ({style, index}) => {
+    console.log(this.props.playlist[0].preview_url);
     return (
       <LiItem button key={index} style={style} divider>
         <ListItemIcon className="icons">
@@ -35,18 +51,17 @@ class Playlist extends React.Component {
           </IconButton>
         </ListItemIcon>
         <ListItemText primary={`${this.props.playlist[index].album.name}, ${this.props.playlist[index].artists[0].name}`} />
-        <ListItemIcon className="icons">
-          <IconButton size="small" color="primary" aria-label="add">
-            <PlayArrow />
-          </IconButton>
-        </ListItemIcon>
+        <Player src={this.props.playlist[index].preview_url} 
+          pauseAll={this.pauseAll}
+          addAudioElement={this.addAudioElement}
+        />
         <ListItemIcon className="icons">
           <IconButton size="small" color="primary" aria-label="add">
             <Replay />
           </IconButton>
         </ListItemIcon>
-        <ListItemIcon className="icons">
-          <IconButton size="small" color="primary" aria-label="add">
+        <ListItemIcon className="icons" onClick={() => this.props.deleteSong(index)}>
+          <IconButton size="small" color="primary" aria-label="add" >
             <Delete />
           </IconButton>
         </ListItemIcon>
@@ -95,4 +110,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {})(Playlist);
+export default connect(mapStateToProps, {deleteSong})(Playlist);

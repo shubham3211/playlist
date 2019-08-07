@@ -40,7 +40,7 @@ class PlaylistInfo extends React.Component {
   }
   onSubmit = formValues => {
     Spotify.getCurrentUser().then((user) => {
-      return Spotify.createPlaylist(user.body.id, formValues.playlistTitle, formValues.status=="public" ? true: false)
+      return Spotify.createPlaylist(user.body.id, formValues.playlistTitle, formValues.status==="public" ? true: false)
     }).then((playlist) => {
       return Spotify.addTracksToPlaylist(playlist.body.owner.id, playlist.body.id, this.props.tracks);
     }).then((snapshot) => {
@@ -86,7 +86,7 @@ const playlistValues = reduxForm({
 
 const mapStateToProps = (state) => {
   return {
-    tracks: state.playlistCreated
+    tracks: state.playlistCreated 
   }
 }
 
