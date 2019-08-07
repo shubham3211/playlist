@@ -6,6 +6,8 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { FormControlLabel } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Spotify from '../core/Spotify';
 
 const validate = values => {
   const errors = {};
@@ -28,15 +30,18 @@ class PlaylistInfo extends React.Component {
       <TextField 
         id="outlined-name"
         label={label}
-        // variant="outlined"
+        variant="outlined"
         {...input}
         margin="normal"
+        fullWidth
+        color="secondary"
       />
     )
   }
-
   onSubmit = formValues => {
-    this.props.playlistForm({title: formValues.playlistTitle, status: formValues.status})
+    Spotify.login().then(() => {
+      console.log('login :');
+    })
   }
 
   renderRadioGroup = ({ input, ...rest }) => (
@@ -51,12 +56,18 @@ class PlaylistInfo extends React.Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+        <Typography variant="h4" component="h6" color="textSecondary" style={{marginTop:50}}>
+          Playlist Info
+        </Typography>
         <Field name="playlistTitle" component={this.renderTextField} label="Title" />
-        <Field name="status" component={this.renderRadioGroup}>
+        <Typography variant="h5" component="h5" color="textSecondary" style={{marginTop:10, marginBottom:10}}>
+          Status
+        </Typography>
+        <Field name="status" component={this.renderRadioGroup} style={{display:"flex",  flexDirection: 'row', marginBottom:10}}>
           <FormControlLabel  value="private" control={<Radio />} label="Private" />
           <FormControlLabel  value="public" control={<Radio />} label="Public" />
         </Field>
-        <Button variant="contained" color="primary" type="submit">
+        <Button variant="contained" color="secondary" type="submit" size="large" fullWidth>
           Save on Spotify
         </Button>
       </form>
