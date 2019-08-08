@@ -6,7 +6,7 @@ const createPlaylist = (state = [], action) => {
     case CREATE_PLAYLIST: 
       return action.payload
     case DELETE_SONG:
-      return [...state].filter((ele, id) => id!=action.payload.id);  
+      return [...state].filter((ele, id) => id!==action.payload);  
     default:
       return state;
   }

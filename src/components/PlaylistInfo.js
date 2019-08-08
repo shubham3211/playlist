@@ -8,6 +8,7 @@ import { FormControlLabel } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Spotify from '../core/Spotify';
+import AlertDialog from './Modal'
 
 const validate = values => {
   const errors = {};
@@ -25,6 +26,13 @@ const validate = values => {
 
 class PlaylistInfo extends React.Component {
 
+  constructor(props){
+    super(props);
+    this.state = {
+      showModal: true,
+    }
+  }
+
   renderTextField = ({input, label}) => {
     return (
       <TextField 
@@ -38,13 +46,15 @@ class PlaylistInfo extends React.Component {
       />
     )
   }
+
   onSubmit = formValues => {
     Spotify.getCurrentUser().then((user) => {
       return Spotify.createPlaylist(user.body.id, formValues.playlistTitle, formValues.status==="public" ? true: false)
     }).then((playlist) => {
+      this.playlist = playlist.body.external_urls.spotify; 
       return Spotify.addTracksToPlaylist(playlist.body.owner.id, playlist.body.id, this.props.tracks);
     }).then((snapshot) => {
-      console.log('snapshot :', snapshot);
+      this.setState({showModal: true})
     })
   }
 
@@ -56,6 +66,10 @@ class PlaylistInfo extends React.Component {
       onChange={(event, value) => input.onChange(value)}
     />
   );
+  
+  closeModal = () => {
+    this.setState({showModal:false});
+  }  
 
   render() {
     return (
@@ -74,6 +88,7 @@ class PlaylistInfo extends React.Component {
         <Button variant="contained" color="secondary" type="submit" size="large" fullWidth>
           Save on Spotify
         </Button>
+        {this.state.showModal ? <AlertDialog src={this.props.selectedSong.album.images[0].url} playlist={this.playlist} /> : null}
       </form>
     )
   }
@@ -86,7 +101,8 @@ const playlistValues = reduxForm({
 
 const mapStateToProps = (state) => {
   return {
-    tracks: state.playlistCreated 
+    tracks: state.playlistCreated,
+    selectedSong: state.selectedSong
   }
 }
 

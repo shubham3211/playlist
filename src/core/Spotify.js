@@ -38,6 +38,7 @@ import SpotifyWebApi from 'spotify-web-api-node';
               tracks = [...tracks, ...song.body.tracks]
             })
             // tracks = tracks.filter((song, index, ar) => ar.indexOf(song)==index);
+            tracks = tracks.filter((song) => {if(song.preview_url){return song}})
             tracks.sort((a, b) => b.popularity-a.popularity)
             console.log('tracks', tracks.slice(0,30));
             resolve(tracks.slice(0, 30));  

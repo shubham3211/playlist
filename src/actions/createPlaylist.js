@@ -14,6 +14,7 @@ export const createPlaylist = (song) => {
 }
 
 export const deleteSong = (id) => {
+  console.log(id);
   return {
     type: DELETE_SONG,
     payload: id
