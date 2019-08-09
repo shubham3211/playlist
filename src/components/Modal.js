@@ -31,7 +31,7 @@ export default function AlertDialog(props) {
         <DialogContent>
           <div className="confirm_cover_back" style={{marginTop:""}}></div>
           <div className="confirm_cover_back" style={{width:"250px"}}></div>
-            <img src={props.src} width="50%" height="50%" style={{marginLeft:"137px",marginTop:"",borderRadius:"15px"}} />
+            <img src={props.src} width="50%" height="50%" style={{marginLeft:"137px",marginTop:"",borderRadius:"15px"}} alt="playlistImage" />
             <DialogContentText id="alert-dialog-description" align="center">
               How Good Is Your New Playlist ?
               <br />

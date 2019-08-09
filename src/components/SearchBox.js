@@ -7,7 +7,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import {connect} from 'react-redux';
 import selectedSong from '../actions/selectedSong';
 import {createPlaylist} from '../actions/createPlaylist';
-import '../styles/style.css'
+import Loading from './Loading'
+import Typography from '@material-ui/core/Typography';
 
 class SearchBox extends React.Component {  
 
@@ -15,8 +16,15 @@ class SearchBox extends React.Component {
     super();
     this.state = {
       value: '',
-      suggestion: []
+      suggestion: [],
+      loading: false
     };
+  }
+
+  componentDidUpdate() {
+    if(this.props.playlist.length !==0 ){
+      this.props.changeComponent();
+    }
   }
 
   getSuggestions = ({value}) => {
@@ -28,7 +36,6 @@ class SearchBox extends React.Component {
         Spotify.search(value.trim()).then((data) => {
           let tracks = [];
           data.body.tracks.items.forEach(element => {
-            // console.log(element);
             tracks.push(element);
           });
           resolve(tracks);
@@ -68,6 +75,9 @@ class SearchBox extends React.Component {
   handleSearch = (song) => {
     this.props.selectedSong(song);
     this.props.createPlaylist(song);
+    this.setState({
+      loading: true
+    })
   }
 
   onSuggestionSelected = (event, {suggestion}) => {
@@ -88,10 +98,10 @@ class SearchBox extends React.Component {
       value,
       onChange: this.onChange
     }
-    console.log("hello");
-    return (
-      <Grid container spacing={3}>
-        <Grid item xs={5}>
+    //   
+    return !this.state.loading ? (
+      <Grid container direction="row" justify="center" alignItems="center" style={{background:"linear-gradient(135deg,#121242,#ff5a72)", height:"600px"}}>
+        <Grid item xs={6} style={{top:"", position:""}}>
           <AutoSuggest
             suggestions = {suggestion}
             onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -103,13 +113,14 @@ class SearchBox extends React.Component {
           />
         </Grid>
       </Grid>
-    )
+    ): (<div><Loading /></div>)
   }
 }
 
 const mapStateToProps = state => {
   return {
-    selectedSong: state.selectedSong
+    selectedSong: state.selectedSong,
+    playlist: state.playlistCreated
   }
 }
 

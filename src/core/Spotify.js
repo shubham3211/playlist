@@ -10,7 +10,7 @@ import SpotifyWebApi from 'spotify-web-api-node';
   let Spotify = {
     search : input => spotifyApi.searchTracks(input, {limit: 5}),
 
-    recentPlaylist : () => spotifyApi.getFeaturedPlaylists({limit: 8}),
+    recentPlaylist : () => spotifyApi.getRecommendations({limit: 8}),
 
     relatedArtists : (id) => spotifyApi.getArtistRelatedArtists(id),
 

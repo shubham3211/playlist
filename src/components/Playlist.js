@@ -34,6 +34,13 @@ class Playlist extends React.Component {
     this.currentAudioElement = '';
   }
 
+  componentDidMount() {
+    console.log("palylist", this.props.playlist);
+    if(this.props.playlist.length!==0){
+      this.setState({isLoading: false});
+    }
+  }
+
   addAudioElement = (audioElement) => {
     this.currentAudioElement = audioElement;
   }
@@ -92,7 +99,7 @@ class Playlist extends React.Component {
               </GridList>
             </Grid>
             <Grid item xs={12}>
-              <FixedSizeList height={300} width={810} itemSize={50} itemCount={this.props.playlist.length}> 
+              <FixedSizeList height={300} width={848} itemSize={50} itemCount={this.props.playlist.length}> 
                 {this.renderList}
               </FixedSizeList>
             </Grid>

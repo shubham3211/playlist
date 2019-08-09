@@ -6,7 +6,7 @@ body {
   padding: 0px;
   height: 100%;
   font-family: 'Montserrat', sans-serif;
-  background: #5e04c2;
+  /* background: #5e04c2; */
 }
 
 div {
@@ -494,8 +494,10 @@ a {
 .loading {
   top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
   position: absolute;
   margin: -40px 0 0 -27px;
+  color: #C698FA;
 }
 
 /* Footer Component */
@@ -865,8 +867,8 @@ a {
   padding: 20px 46px 20px 46px;
   border: 0px;
   border-radius: 5px;
-  background: #410287;
-  color: #fff;
+  /* background: #410287; */
+  /* color: #fff; */
   -webkit-transition: 0.2s ease-in-out;
   -moz-transition: 0.2s ease-in-out;
   -o-transition: 0.2s ease-in-out;

@@ -48,6 +48,7 @@ class FeaturedPlaylist extends React.Component {
   componentDidMount() {
     Spotify.recentPlaylist().then((data) => {
       this.props.addFeaturedPlaylist(data.body.playlists.items)
+      console.log(data);
     }).catch((err) => {
       throw new Error(err);
     })
