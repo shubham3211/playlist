@@ -5,13 +5,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
-import Clear from '@material-ui/icons/Clear'
+import Clear from '@material-ui/icons/Clear';
 
 export default function AlertDialog(props) {
   const [open, setOpen] = React.useState(true);
 
   function handleClose() {
     setOpen(false);
+    props.closeModal();
   }
 
   return (

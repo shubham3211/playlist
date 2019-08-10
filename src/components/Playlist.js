@@ -15,6 +15,7 @@ import Player from './Player';
 import {deleteSong} from '../actions/createPlaylist';
 import selectSong from '../actions/selectedSong';
 import {createPlaylist} from '../actions/createPlaylist';
+import Loading from './Loading'
 
 const LiItem = styled(ListItem)`
   .icons {
@@ -32,6 +33,9 @@ class Playlist extends React.Component {
   constructor (props){
     super(props);
     this.currentAudioElement = '';
+    this.state = {
+      loading: false
+    }
   }
 
   componentDidMount() {
@@ -48,6 +52,14 @@ class Playlist extends React.Component {
   pauseAll = () => {
     if(this.currentAudioElement)
         this.currentAudioElement.pause();
+  }
+
+  changeLoading = () => {
+    this.setState((state) => {
+      return {
+        loading: !state.loading
+      }
+    })
   }
 
   renderList = ({style, index}) => {
@@ -80,8 +92,9 @@ class Playlist extends React.Component {
   }
 
   render(){
-    return (
+    return !this.state.loading ? (
       <Grid container spacing={3}>
+        {/* <FeaturedPlaylist /> */}
         <Grid item xs={8}>
           <Grid container>
             <Grid item xs={12}>
@@ -106,10 +119,10 @@ class Playlist extends React.Component {
           </Grid>
         </Grid>
         <Grid item xs={4}>
-          <PlaylistInfo />        
+          <PlaylistInfo changeLoading={this.changeLoading} />        
         </Grid>
       </Grid>
-    )
+    ): (<Loading />)
   }
 }
 

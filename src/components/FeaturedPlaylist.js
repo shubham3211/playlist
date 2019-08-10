@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
 import {PlayArrow, Share, Favorite} from "@material-ui/icons/";
+import Container from '@material-ui/core/Container';
 
 class FeaturedPlaylist extends React.Component {
   renderList() {
@@ -56,9 +57,12 @@ class FeaturedPlaylist extends React.Component {
 
   render() {
     return (
-      <Grid container spacing={4}>
-        {this.renderList()}
-      </Grid>
+      <Container>
+        <Typography variant="h4" color="textSecondary" style={{marginBottom:"10px", marginTop:"10px"}}>Recent Playlist</Typography>
+        <Grid container spacing={4}>
+          {this.renderList()}
+        </Grid>
+      </Container>
     )
   }
 }

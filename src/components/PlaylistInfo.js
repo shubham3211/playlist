@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Spotify from '../core/Spotify';
 import AlertDialog from './Modal'
+import {modalAction} from '../actions/modalAction'
 
 const validate = values => {
   const errors = {};
@@ -29,8 +30,10 @@ class PlaylistInfo extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      showModal: false,
+      loading: false,
+      showModal: this.props.showModal
     }
+    console.log("constructor")
   }
 
   renderTextField = ({input, label}) => {
@@ -48,13 +51,15 @@ class PlaylistInfo extends React.Component {
   }
 
   onSubmit = formValues => {
+    this.props.changeLoading();
     Spotify.getCurrentUser().then((user) => {
       return Spotify.createPlaylist(user.body.id, formValues.playlistTitle, formValues.status==="public" ? true: false)
     }).then((playlist) => {
       this.playlist = playlist.body.external_urls.spotify; 
       return Spotify.addTracksToPlaylist(playlist.body.owner.id, playlist.body.id, this.props.tracks);
     }).then((snapshot) => {
-      this.setState({showModal: true})
+      this.props.changeLoading();
+      this.props.modalAction(true);
     })
   }
 
@@ -68,7 +73,7 @@ class PlaylistInfo extends React.Component {
   );
   
   closeModal = () => {
-    this.setState({showModal:false});
+    this.props.modalAction(false);
   }  
 
   render() {
@@ -88,7 +93,7 @@ class PlaylistInfo extends React.Component {
         <Button variant="contained" color="secondary" type="submit" size="large" fullWidth>
           Save on Spotify
         </Button>
-        {this.state.showModal ? <AlertDialog src={this.props.selectedSong.album.images[0].url} playlist={this.playlist} /> : null}
+        {this.props.showModal ? <AlertDialog src={this.props.selectedSong.album.images[0].url} playlist={this.playlist} closeModal={this.closeModal}/> : null}
       </form>
     )
   }
@@ -102,8 +107,9 @@ const playlistValues = reduxForm({
 const mapStateToProps = (state) => {
   return {
     tracks: state.playlistCreated,
-    selectedSong: state.selectedSong
+    selectedSong: state.selectedSong,
+    showModal: state.showModal
   }
 }
 
-export default connect(mapStateToProps, {})(playlistValues);
+export default connect(mapStateToProps, {modalAction})(playlistValues);

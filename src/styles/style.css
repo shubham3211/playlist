@@ -912,6 +912,8 @@ a {
 .react-autosuggest__suggestions-list{
   list-style-type: none;
   padding:0;
+  position:absolute;
+  width: 643px;;
 }
 
 .react-autosuggest__suggestions {

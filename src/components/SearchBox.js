@@ -1,14 +1,11 @@
 import React from 'react';
 import Spotify from '../core/Spotify'
 import AutoSuggest from 'react-autosuggest';
-import Grid from '@material-ui/core/Grid';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {connect} from 'react-redux';
 import selectedSong from '../actions/selectedSong';
 import {createPlaylist} from '../actions/createPlaylist';
-import Loading from './Loading'
-import Typography from '@material-ui/core/Typography';
 
 class SearchBox extends React.Component {  
 
@@ -17,14 +14,7 @@ class SearchBox extends React.Component {
     this.state = {
       value: '',
       suggestion: [],
-      loading: false
     };
-  }
-
-  componentDidUpdate() {
-    if(this.props.playlist.length !==0 ){
-      this.props.changeComponent();
-    }
   }
 
   getSuggestions = ({value}) => {
@@ -75,9 +65,7 @@ class SearchBox extends React.Component {
   handleSearch = (song) => {
     this.props.selectedSong(song);
     this.props.createPlaylist(song);
-    this.setState({
-      loading: true
-    })
+    this.props.changeLoading();
   }
 
   onSuggestionSelected = (event, {suggestion}) => {
@@ -98,22 +86,18 @@ class SearchBox extends React.Component {
       value,
       onChange: this.onChange
     }
-    //   
-    return !this.state.loading ? (
-      <Grid container direction="row" justify="center" alignItems="center" style={{background:"linear-gradient(135deg,#121242,#ff5a72)", height:"600px"}}>
-        <Grid item xs={6} style={{top:"", position:""}}>
-          <AutoSuggest
-            suggestions = {suggestion}
-            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-            onSuggestionSelected={this.onSuggestionSelected}
-            getSuggestionValue={this.getSuggestionValue}
-            renderSuggestion={this.renderSuggestion}
-            inputProps={inputProps}
-          />
-        </Grid>
-      </Grid>
-    ): (<div><Loading /></div>)
+
+    return (  
+      <AutoSuggest
+        suggestions = {suggestion}
+        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+        onSuggestionSelected={this.onSuggestionSelected}
+        getSuggestionValue={this.getSuggestionValue}
+        renderSuggestion={this.renderSuggestion}
+        inputProps={inputProps}
+      />
+    )
   }
 }
 
