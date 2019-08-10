@@ -1,10 +1,8 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import FeaturedPlaylist from './FeaturedPlaylist';
 import Playlist from './Playlist';
 import Spotify from '../core/Spotify'
 import Homepage from './Homepage';
-import Loading from './Loading';
 
 class App extends React.Component {
 
